@@ -1,7 +1,7 @@
 package requests
 
-// UserGetDevice ...
-type UserGetDevice struct {
-	UserID   string
-	DeviceID string
+// UserAction ...
+type UserAction struct {
+	UserID   string `json:"userId"`
+	DeviceID string `json:"deviceId"`
 }

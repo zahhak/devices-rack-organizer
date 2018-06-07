@@ -16,6 +16,9 @@ functions:
           - http:
               method: GET
               path: device
+          - http:
+              method: PUT
+              path: device/{deviceId}
       package:
           include:
             - lambda/http/bin/main
