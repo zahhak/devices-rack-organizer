@@ -5,7 +5,10 @@
 </ActionBar>
 
 <GridLayout rows="*, *" columns="*, *" class="page page-content">
-    <Button row="0" col="0" text="Get" class="btn btn-primary btn-active"></Button>
+    <Button row="0" col="0" text="Get" (tap)="getDevice()" class="btn btn-primary btn-active"></Button>
     <Button row="0" col="1" text="Return" class="btn btn-primary btn-active"></Button>
     <Button row="1" colSpan="2" text="List" class="btn btn-primary btn-active"></Button>
+    <BarcodeScanner class="scanner-round" formats="QR_CODE, EAN_13" beepOnScan="true" reportDuplicates="true" preferFrontCamera="false"
+        (scanResult)="onScanResult($event)">
+    </BarcodeScanner>
 </GridLayout>
