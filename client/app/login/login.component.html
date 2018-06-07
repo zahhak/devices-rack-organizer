@@ -1,0 +1,12 @@
+<ActionBar class="action-bar">
+    <!-- Should remove the navigation button -->
+    <NavigationButton ios:visibility="collapsed"></NavigationButton>
+    <Label class="action-bar-title" text="Browse" horizontalAlignment="center"></Label>
+</ActionBar>
+
+<StackLayout class="page page-content">
+    <TextField hint="Enter text" autocorrect="false" [(ngModel)]="username"
+    class="input input-border"></TextField>
+    <Button text="Login" (tap)="submit()"
+    class="btn btn-primary btn-active"></Button>
+</StackLayout>
