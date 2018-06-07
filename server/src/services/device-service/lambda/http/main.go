@@ -9,6 +9,7 @@ import (
 func main() {
 	wf := workflow.NewAPIGWProxyWorkflowBuilder().
 		AddGetHandler("/device", handlers.GetAll).
+		AddPutHandler("/device/{deviceId}", handlers.UserAction).
 		Build()
 	lambda.Start(wf.GetLambdaHandler())
 }

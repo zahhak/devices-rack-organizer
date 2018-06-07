@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/TsvetanMilanov/go-lambda-workflow"
   packages = ["workflow"]
-  revision = "930e12d4275688b5bd30445b30c905de99df3f08"
+  revision = "7525fa9887af488bedc0a4414635263d5819cc65"
 
 [[projects]]
   name = "github.com/aws/aws-lambda-go"
