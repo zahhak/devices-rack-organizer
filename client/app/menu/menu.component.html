@@ -1,0 +1,11 @@
+<ActionBar class="action-bar">
+    <!-- Should remove the navigation button -->
+    <NavigationButton ios:visibility="collapsed"></NavigationButton>
+    <Label class="action-bar-title" text="Browse" horizontalAlignment="center"></Label>
+</ActionBar>
+
+<GridLayout rows="*, *" columns="*, *" class="page page-content">
+    <Button row="0" col="0" text="Get" class="btn btn-primary btn-active"></Button>
+    <Button row="0" col="1" text="Return" class="btn btn-primary btn-active"></Button>
+    <Button row="1" colSpan="2" text="List" class="btn btn-primary btn-active"></Button>
+</GridLayout>
