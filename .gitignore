@@ -34,3 +34,7 @@ typings/
 !.vscode/extensions.json
 
 package-lock.json
+
+# Golang
+vendor
+.build
