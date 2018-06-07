@@ -20,4 +20,10 @@ export class MenuComponent {
                 this.user = params.user;
             });
     }
+
+    public onListTapped() {
+        console.log("@@@@@@@@@@@@ LS");
+        alert("TAPPED!!!!!");
+    }
+
 }
