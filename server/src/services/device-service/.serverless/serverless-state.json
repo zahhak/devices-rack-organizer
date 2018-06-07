@@ -5,11 +5,25 @@
       "name": "device-service"
     },
     "provider": {
-      "stage": "dev",
+      "stage": "test",
       "region": "eu-west-1",
       "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
       "name": "aws",
       "runtime": "go1.x",
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:Query",
+            "dynamodb:Scan",
+            "dynamodb:GetItem",
+            "dynamodb:PutItem",
+            "dynamodb:UpdateItem",
+            "dynamodb:DeleteItem"
+          ],
+          "Resource": "arn:aws:dynamodb:eu-west-1:*:table/RackOrganizer"
+        }
+      ],
       "versionFunctions": true,
       "remoteFunctionData": null,
       "compiledCloudFormationTemplate": {
@@ -22,7 +36,7 @@
           "DeviceLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/device-service-dev-device"
+              "LogGroupName": "/aws/lambda/device-service-test-device"
             }
           },
           "IamRoleLambdaExecution": {
@@ -50,7 +64,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "dev",
+                        "test",
                         "device-service",
                         "lambda"
                       ]
@@ -66,7 +80,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/device-service-dev-device:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/device-service-test-device:*"
                           }
                         ]
                       },
@@ -77,9 +91,12 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/device-service-dev-device:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/device-service-test-device:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
                       }
                     ]
                   }
@@ -91,7 +108,7 @@
                   "-",
                   [
                     "device-service",
-                    "dev",
+                    "test",
                     "eu-west-1",
                     "lambdaRole"
                   ]
@@ -106,9 +123,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/device-service/dev/1528367489736-2018-06-07T10:31:29.736Z/device.zip"
+                "S3Key": "serverless/device-service/test/1528382799214-2018-06-07T14:46:39.214Z/device.zip"
               },
-              "FunctionName": "device-service-dev-device",
+              "FunctionName": "device-service-test-device",
               "Handler": "lambda/http/bin/main",
               "MemorySize": 1024,
               "Role": {
@@ -125,20 +142,20 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "DeviceLambdaVersionlo5uz800wESMXt7fAuTiO2RVrFlBR03MlhHoyUzUWE": {
+          "DeviceLambdaVersionxZ6JAstbrEhVw8i5clwqpTXrFY4aLHG5FkmfP5G7M": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DeviceLambdaFunction"
               },
-              "CodeSha256": "y8cIttN3KQLgJ6YrZZqkEReMr6tiVjFUE5nSBEh8mew="
+              "CodeSha256": "jvTRrgT6e+m7WH0ivbyc4J13qLbCqR9pTxkay52aMiE="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-device-service",
+              "Name": "test-device-service",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -156,6 +173,18 @@
                 ]
               },
               "PathPart": "device",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceDeviceDeviceidVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceDevice"
+              },
+              "PathPart": "{deviceId}",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -204,16 +233,94 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1528367489759": {
+          "ApiGatewayMethodDeviceDeviceidVarPut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceDeviceDeviceidVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "CUSTOM",
+              "AuthorizerId": {
+                "Ref": "AuthorizerApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "DeviceLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "AuthorizerApiGatewayAuthorizer"
+          },
+          "AuthorizerApiGatewayAuthorizer": {
+            "Type": "AWS::ApiGateway::Authorizer",
+            "Properties": {
+              "AuthorizerResultTtlInSeconds": 0,
+              "IdentitySource": "method.request.header.Authorization",
+              "Name": "authorizer",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "AuthorizerUri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    "arn:aws:lambda:eu-west-1:140128116371:function:user-service-test-authorizer",
+                    "/invocations"
+                  ]
+                ]
+              },
+              "Type": "TOKEN"
+            }
+          },
+          "ApiGatewayDeployment1528382799242": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               },
-              "StageName": "dev"
+              "StageName": "test"
             },
             "DependsOn": [
-              "ApiGatewayMethodDeviceGet"
+              "ApiGatewayMethodDeviceGet",
+              "ApiGatewayMethodDeviceDeviceidVarPut"
             ]
           },
           "DeviceLambdaPermissionApiGateway": {
@@ -262,6 +369,24 @@
                 ]
               }
             }
+          },
+          "AuthorizerLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": "arn:aws:lambda:eu-west-1:140128116371:function:user-service-test-authorizer",
+              "Action": "lambda:InvokeFunction",
+              "Principal": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "apigateway.",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -273,7 +398,7 @@
           "DeviceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DeviceLambdaVersionlo5uz800wESMXt7fAuTiO2RVrFlBR03MlhHoyUzUWE"
+              "Ref": "DeviceLambdaVersionxZ6JAstbrEhVw8i5clwqpTXrFY4aLHG5FkmfP5G7M"
             }
           },
           "ServiceEndpoint": {
@@ -290,7 +415,7 @@
                   {
                     "Ref": "AWS::URLSuffix"
                   },
-                  "/dev"
+                  "/test"
                 ]
               ]
             }
@@ -325,19 +450,33 @@
               "path": "device",
               "integration": "AWS_PROXY"
             }
+          },
+          {
+            "http": {
+              "method": "put",
+              "path": "device/{deviceId}",
+              "authorizer": {
+                "name": "authorizer",
+                "arn": "arn:aws:lambda:eu-west-1:140128116371:function:user-service-test-authorizer",
+                "resultTtlInSeconds": 0,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
           }
         ],
         "package": {
           "artifact": "/Users/dragonadminov/go/src/github.com/zahhak/devices-rack-organizer/server/src/services/device-service/.serverless/device.zip"
         },
-        "name": "device-service-dev-device",
+        "name": "device-service-test-device",
         "vpc": {}
       }
     }
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/device-service/dev/1528367489736-2018-06-07T10:31:29.736Z",
+    "artifactDirectoryName": "serverless/device-service/test/1528382799214-2018-06-07T14:46:39.214Z",
     "artifact": ""
   }
 }
