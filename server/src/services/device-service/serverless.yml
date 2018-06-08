@@ -1,6 +1,7 @@
 service: device-service
 provider:
   name: aws
+  stage: ${opt:stage, "dev"}
   runtime: go1.x
   region: eu-west-1
   iamRoleStatements:
@@ -29,6 +30,9 @@ functions:
           - http:
               method: PUT
               path: device/{deviceId}
+              authorizer:
+                arn: ${cf:user-service-${self:provider.stage}.AuthorizerLambda}
+                resultTtlInSeconds: 0
       package:
           include:
             - lambda/http/bin/main

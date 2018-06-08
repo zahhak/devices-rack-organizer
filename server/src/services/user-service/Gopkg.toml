@@ -1,0 +1,7 @@
+[[constraint]]
+  branch = "master"
+  name = "github.com/TsvetanMilanov/go-lambda-workflow"
+
+[[constraint]]
+  name = "github.com/aws/aws-lambda-go"
+  version = "1.2.0"
