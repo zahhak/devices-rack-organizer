@@ -1,8 +1,8 @@
 package services
 
 import (
+	"errors"
 	"fmt"
-
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -80,6 +80,10 @@ func (service *DBService) GetDeviceByID(id string) (*db.Device, error) {
 	res, err := client.GetItem(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if res.Item == nil {
+		return nil, errors.New("device not found")
 	}
 
 	device := new(db.Device)

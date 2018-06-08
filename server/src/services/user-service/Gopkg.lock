@@ -13,15 +13,9 @@
   revision = "4d30d0ff60440c2d0480a15747c96ee71c3c53d4"
   version = "v1.2.0"
 
-[[projects]]
-  branch = "master"
-  name = "github.com/zahhak/devices-rack-organizer"
-  packages = ["server/src/services/device-service/lib/handlers","server/src/services/device-service/lib/requests"]
-  revision = "ba4c8605f484ddcccb6806e8a2ee1ec96ebf3486"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "21285bba6ee79d921c796f3dc34bf51143f59bc1a7b3b2b555c2652d6839970c"
+  inputs-digest = "ae68523ca8da2e9c36810a34168581b811e0c22e7177d4ecb1e6743130db8bd8"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -31,10 +31,10 @@ func UserAction(ctx workflow.Context, req requests.UserAction) error {
 	}
 
 	deviceService := new(services.DeviceService)
-	updateErr := deviceService.UpdateDevice(req.DeviceID, user.UserID)
+	deviceState, updateErr := deviceService.UpdateDevice(req.DeviceID, user.UserID)
 	if updateErr != nil {
 		return updateErr
 	}
-	ctx.SetResponseStatusCode(http.StatusNoContent)
+	ctx.SetResponse(deviceState).SetResponseStatusCode(http.StatusOK)
 	return nil
 }
