@@ -3,6 +3,7 @@ export class DeviceInfo {
     userId: string;
     imageUrl: string;
     historyUrl: string;
+    history?: any[];
 
     constructor(options: any) {
         this.deviceId = options.deviceId;
