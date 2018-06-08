@@ -1,12 +1,12 @@
 export class DeviceInfo {
-    id: string;
-    user: string;
+    deviceId: string;
+    userId: string;
     imageUrl: string;
     historyUrl: string;
 
     constructor(options: any) {
-        this.id = options.id;
-        this.user = options.user;
+        this.deviceId = options.deviceId;
+        this.userId = options.userId;
         this.imageUrl = options.imageUrl;
         this.historyUrl = options.historyUrl;
     }

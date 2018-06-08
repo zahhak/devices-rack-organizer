@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { Routes } from "@angular/router";
 import { MenuComponent } from "~/menu/menu.component";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
@@ -20,6 +20,9 @@ const routes: Routes = [
     providers: [
         DevicesService
     ],
-    bootstrap: [MenuComponent]
+    bootstrap: [MenuComponent],
+    schemas: [
+        NO_ERRORS_SCHEMA
+    ]
 })
 export class MenuModule { }

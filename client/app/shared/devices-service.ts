@@ -47,7 +47,7 @@ export class DevicesService {
 
         return getDevicesPromise.then(res => {
             console.log("################### devices in getDeviceInfo", this._devices);
-            const devicesFound = this._devices.filter(d => d.id !== deviceId);
+            const devicesFound = this._devices.filter(d => d.deviceId !== deviceId);
             console.log("dev found", devicesFound);
             return devicesFound && devicesFound[0];
         });

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { Routes } from "@angular/router";
 import { LoginComponent } from "~/login/login.component";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
@@ -16,6 +16,9 @@ const routes: Routes = [
     declarations: [
         LoginComponent
     ],
-    bootstrap: [LoginComponent]
+    bootstrap: [LoginComponent],
+    schemas: [
+        NO_ERRORS_SCHEMA
+    ]
 })
 export class LoginModule { }
