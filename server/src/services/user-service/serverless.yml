@@ -1,0 +1,28 @@
+service: user-service
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  runtime: go1.x
+  region: eu-west-1
+
+package:
+  individually: true
+  exclude:
+    - "*/**"
+
+functions:
+  authorizer:
+      handler: lambda/authorizer/bin/main
+      package:
+          include:
+            - lambda/authorizer/bin/main
+
+resources:
+  Outputs:
+    AuthorizerLambda:
+      Value:
+        Fn::GetAtt:
+          - AuthorizerLambdaFunction
+          - Arn
+      Export:
+        Name: AuthorizerLambda-RackOrganizer
