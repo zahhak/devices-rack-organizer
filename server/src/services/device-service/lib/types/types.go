@@ -11,10 +11,12 @@ type User struct {
 
 // DeviceExt ...
 type DeviceExt struct {
-	DeviceID string    `json:"deviceId"`
-	UserID   string    `json:"userId"`
-	Date     time.Time `json:"date"`
-	ImageURL string    `json:"imageUrl"`
+	DeviceID   string    `json:"deviceId"`
+	UserID     string    `json:"userId"`
+	Date       time.Time `json:"date"`
+	ImageURL   string    `json:"imageUrl"`
+	HistoryURL string    `json:"historyUrl"`
+}
 
 // DeviceHistoryRecord ...
 type DeviceHistoryRecord struct {
