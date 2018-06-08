@@ -46,8 +46,10 @@ func (service *DeviceService) GetFullDevice(deviceID string) (*types.DeviceExt, 
 		return nil, err
 	}
 	deviceExt := types.DeviceExt{
-		Device: *device,
-		Image:  fmt.Sprintf("https://s3-eu-west-1.amazonaws.com/ns-devices-rack-organizer/%s/image.jpg", device.DeviceID),
+		DeviceID: device.DeviceID,
+		UserID:   device.UserID,
+		Date:     device.Date,
+		ImageURL: fmt.Sprintf("https://s3-eu-west-1.amazonaws.com/ns-devices-rack-organizer/%s/image.jpg", device.DeviceID),
 	}
 	return &deviceExt, nil
 }
@@ -62,8 +64,10 @@ func (service *DeviceService) GetFullDevices() (*[]types.DeviceExt, error) {
 	devicesExt := []types.DeviceExt{}
 	for _, device := range devices {
 		deviceExt := types.DeviceExt{
-			Device: device,
-			Image:  fmt.Sprintf("https://s3-eu-west-1.amazonaws.com/ns-devices-rack-organizer/%s/image.jpg", device.DeviceID),
+			DeviceID: device.DeviceID,
+			UserID:   device.UserID,
+			Date:     device.Date,
+			ImageURL: fmt.Sprintf("https://s3-eu-west-1.amazonaws.com/ns-devices-rack-organizer/%s/image.jpg", device.DeviceID),
 		}
 		devicesExt = append(devicesExt, deviceExt)
 	}

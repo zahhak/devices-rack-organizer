@@ -1,6 +1,6 @@
 package types
 
-import "github.com/zahhak/devices-rack-organizer/server/src/services/device-service/lib/types/db"
+import "time"
 
 // User ...
 type User struct {
@@ -9,6 +9,8 @@ type User struct {
 
 // DeviceExt ...
 type DeviceExt struct {
-	db.Device
-	Image string
+	DeviceID string    `json:"deviceId"`
+	UserID   string    `json:"userId"`
+	Date     time.Time `json:"date"`
+	ImageURL string    `json:"imageUrl"`
 }
