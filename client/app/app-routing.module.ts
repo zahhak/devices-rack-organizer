@@ -5,7 +5,8 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 const routes: Routes = [
     { path: "", redirectTo: "/login", pathMatch: "full" },
     { path: "login", loadChildren: "./login/login.module#LoginModule" },
-    { path: "menu", loadChildren: "./menu/menu.module#MenuModule" }
+    { path: "menu", loadChildren: "./menu/menu.module#MenuModule" },
+    { path: "devices", loadChildren: "./devices/devices.module#DevicesModule" },
 ];
 
 @NgModule({

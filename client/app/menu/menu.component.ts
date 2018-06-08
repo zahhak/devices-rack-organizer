@@ -63,9 +63,22 @@ export class MenuComponent {
     }
 
     public onListTapped() {
-        this._devicesService.getAllDevices(this.user)
-            .then(res => alert("Result is " + JSON.stringify(res, null, 2)))
-            .catch(err => alert("error while getting devices: " + err));
+        return this._routerExtensions.navigate(["/devices"], {
+            clearHistory: true,
+            animated: true,
+            transition: {
+                name: "slideBottom",
+                duration: 200,
+                curve: "ease"
+            },
+            queryParams: {
+                user: this.user
+            }
+        });
+
+        // this._devicesService.getAllDevices(this.user)
+        //     .then(res => alert("Result is " + JSON.stringify(res, null, 2)))
+        //     .catch(err => alert("error while getting devices: " + err));
 
         console.log("@@@@@@@@@@@@ LS");
         alert("TAPPED!!!!!");

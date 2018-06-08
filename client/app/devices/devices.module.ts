@@ -5,6 +5,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { DeviceDetailComponent } from "./device-detail/device-detail.component";
 import { DevicesListComponent } from "./device-list.component";
 import { DevicesRoutingModule } from "./devices-routing.module";
+import { DevicesService } from "~/shared/devices-service";
 
 @NgModule({
     imports: [
@@ -16,6 +17,9 @@ import { DevicesRoutingModule } from "./devices-routing.module";
     declarations: [
         DevicesListComponent,
         DeviceDetailComponent,
+    ],
+    providers: [
+        DevicesService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
