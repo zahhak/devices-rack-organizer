@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { switchMap } from "rxjs/operators";
 
-import { Car } from "../shared/car.model";
-import { CarService } from "../shared/car.service";
+import { DeviceInfo } from "../../shared/device.model";
+import { DevicesService } from "../../shared/devices-service";
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -13,13 +13,15 @@ import { CarService } from "../shared/car.service";
 @Component({
     selector: "CarDetail",
     moduleId: module.id,
-    templateUrl: "./car-detail.component.html"
+    templateUrl: "./device-detail.component.html"
 })
-export class CarDetailComponent implements OnInit {
-    private _car: Car;
+export class DeviceDetailComponent implements OnInit {
+    private _device: DeviceInfo;
+    private _user: string;
+    // private _car: DeviceInfo;
 
     constructor(
-        private _carService: CarService,
+        private _devicesService: DevicesService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }
@@ -37,14 +39,16 @@ export class CarDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .pipe(switchMap((activatedRoute) => activatedRoute.params))
             .forEach((params) => {
-                const carId = params.id;
+                const deviceId = params.deviceId;
+                this._user = params.user;
 
-                this._car = this._carService.getCarById(carId);
+                this._devicesService.getDeviceInfo(deviceId, this._user)
+                    .then(deviceInfo => this._device = deviceInfo);
             });
     }
 
-    get car(): Car {
-        return this._car;
+    get device(): DeviceInfo {
+        return this._device;
     }
 
     /* ***********************************************************
@@ -52,21 +56,5 @@ export class CarDetailComponent implements OnInit {
     *************************************************************/
     onBackButtonTap(): void {
         this._routerExtensions.backToPreviousPage();
-    }
-
-    /* ***********************************************************
-    * The master-detail template comes with an example of an item edit page.
-    * Check out the edit page in the /cars/car-detail-edit folder.
-    *************************************************************/
-    onEditButtonTap(): void {
-        this._routerExtensions.navigate(["/cars/car-detail-edit", this._car.id],
-            {
-                animated: true,
-                transition: {
-                    name: "slideTop",
-                    duration: 200,
-                    curve: "ease"
-                }
-            });
     }
 }
