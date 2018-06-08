@@ -36,7 +36,6 @@ export class DevicesListComponent implements OnInit {
                 this._devicesService.getAllDevices(this.user)
                     .then(res => {
                         this._devices = res;
-                        // TODO: Update UI somewhere here :)))
                         this._isLoading = false;
                     });
             });
@@ -50,10 +49,10 @@ export class DevicesListComponent implements OnInit {
         return this._isLoading;
     }
 
-    onCarItemTap(args: ListViewEventData): void {
-        const tappedCarItem = args.view.bindingContext;
+    onDeviceItemTap(args: ListViewEventData): void {
+        const tappedDeviceItem = args.view.bindingContext;
 
-        this._routerExtensions.navigate(["/cars/car-detail", tappedCarItem.id],
+        this._routerExtensions.navigate(["/devices/device-detail", tappedDeviceItem.deviceId],
             {
                 animated: true,
                 transition: {
