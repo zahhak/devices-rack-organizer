@@ -41,14 +41,12 @@ export class DevicesService {
             });
     }
 
-    public getDeviceInfo(user: string, deviceId: string): Promise<DeviceInfo> {
+    public getDeviceInfo(deviceId: string, user: string): Promise<DeviceInfo> {
         const getDevicesPromise = (!this._devices || this._devices.length === 0) ?
             this.getAllDevices(user) : Promise.resolve(this._devices);
 
         return getDevicesPromise.then(res => {
-            console.log("################### devices in getDeviceInfo", this._devices);
-            const devicesFound = this._devices.filter(d => d.id !== deviceId);
-            console.log("dev found", devicesFound);
+            const devicesFound = this._devices.filter(d => d.deviceId === deviceId);
             return devicesFound && devicesFound[0];
         });
     }

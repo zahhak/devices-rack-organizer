@@ -6,6 +6,7 @@ import { DeviceInfo } from "../../shared/device.model";
 import { DevicesService } from "../../shared/devices-service";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "tns-core-modules/ui/page/page";
+import { HttpClient } from "~/shared/http-client";
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -16,7 +17,7 @@ import { Observable } from "tns-core-modules/ui/page/page";
     moduleId: module.id,
     templateUrl: "./device-detail.component.html"
 })
-export class DeviceDetailComponent implements OnInit {
+export class DeviceDetailComponent extends Observable implements OnInit {
     private _device: DeviceInfo;
     private _user: string;
     constructor(
@@ -24,7 +25,7 @@ export class DeviceDetailComponent implements OnInit {
         private _devicesService: DevicesService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
-    ) { }
+    ) { super(); }
 
     /* ***********************************************************
     * Use the "ngOnInit" handler to get the data item id parameter passed through navigation.
@@ -39,32 +40,22 @@ export class DeviceDetailComponent implements OnInit {
         *************************************************************/
         this.route.queryParams
             .subscribe(params => {
-                console.log("PARAMS!!!!!", params);
                 this._user = params.user;
                 const deviceId = params.deviceId;
                 this._devicesService.getDeviceInfo(deviceId, this._user)
-                    .then(deviceInfo =>{
-                        this._device = deviceInfo;
-                        console.log("@@@@@@ SET DEVICE TO : ", this._device);
+                    .then(deviceInfo => {
+                        return HttpClient.call(deviceInfo.historyUrl, "GET")
+                            .then(hist => {
+                                const jsonHist = hist.content.toJSON();
+                                (<any>deviceInfo).history = jsonHist;
+                                this.set("_device", deviceInfo);
+                            });
                     });
             });
 
-        // this._pageRoute.activatedRoute
-        //     .pipe(switchMap((activatedRoute) => activatedRoute.params))
-        //     .forEach((params) => {
-        //         console.log("######", params);
-        //         const deviceId = params.id;
-        //         this._user = params.user;
-
-        //         console.log("@@@@@@@@@@@@@@@", deviceId, this._user);
-
-        //         this._devicesService.getDeviceInfo(deviceId, this._user)
-        //             .then(deviceInfo => this._device = deviceInfo);
-        //     });
     }
 
     get device(): DeviceInfo {
-        console.log("@@@@@@@@@@@!!!!!!!!!!!!!! getting device", this._device);
         return this._device;
     }
 
