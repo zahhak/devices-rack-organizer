@@ -28,16 +28,10 @@
                     <Label [text]="device.date" row="1" col="1" class="text p-b-10"></Label>
                 </ng-template>
 
-                <StackLayout row="3">
+                <StackLayout row="3" colSpan="2" class="p-l-15">
                     <ng-template ngFor let-histEntry [ngForOf]="device.history">
-                        <div *ngIf="histEntry.newOwner === 'rack'; then histThenBlock else histElseBlock"> </div>
-                        <ng-template #histThenBlock>
-                            <Label text="Returned by {{histEntry.oldOwner}} on {{histEntry.date}}" class="p-l-15 p-b-10 m-r-20 text-secondary"></Label>
-                        </ng-template>
-                        <ng-template #histElseBlock>
-                            <Label text="Taken by {{histEntry.newOwner}} on {{histEntry.date}}" class="p-l-15 p-b-10 m-r-20 text-secondary"></Label>
-                        </ng-template>
-
+                        <Label text="Returned by {{histEntry.oldOwner}} on {{histEntry.date}}" *ngIf="histEntry.newOwner === 'rack'" class="text p-b-10 m-r-20"></Label>
+                        <Label text="Taken by {{histEntry.newOwner}} on {{histEntry.date}}" *ngIf="histEntry.newOwner !== 'rack'" class="text p-b-10 m-r-20"></Label>
                     </ng-template>
                 </StackLayout>
             </GridLayout>
