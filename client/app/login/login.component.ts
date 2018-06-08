@@ -14,7 +14,6 @@ export class LoginComponent {
     public username: string = "username";
 
     public submit() {
-        alert("Text: " + this.username);
         this._routerExtensions.navigate(["/menu"], {
             clearHistory: true,
             animated: true,
@@ -26,6 +25,6 @@ export class LoginComponent {
             queryParams: {
                 user: this.username
             }
-        })
+        });
     }
 }
