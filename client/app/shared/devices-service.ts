@@ -24,7 +24,14 @@ export class DevicesService {
 
     public updateDeviceInfo(deviceId: string, user: string): Promise<DeviceStatus> {
         return HttpClient.call(this.getDeviceActionEndpoint(deviceId), "PUT", user)
-            .then(res => res.content.toJSON());
+            .then(res => {
+                const response = res.content.toJSON();
+                if (res.statusCode >= 400) {
+                    throw new Error(response.message)
+                }
+
+                return response
+            });
     }
 
     public getAllDevices(user: string): Promise<DeviceInfo[]> {

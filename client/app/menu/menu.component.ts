@@ -52,6 +52,11 @@ export class MenuComponent {
                 title: "Success",
                 message: `You have successfully ${deviceAction.toLowerCase()} device ${deviceId}`,
                 okButtonText: "Got it"
+            }))
+            .catch(err => dialogs.alert({
+                title: "Failure",
+                message: `Failed to update device ${deviceId} due to ${err.message}`,
+                okButtonText: "Got it"
             }));
     }
 
