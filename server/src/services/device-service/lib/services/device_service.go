@@ -40,7 +40,7 @@ func (service *DeviceService) UpdateDevice(deviceID, userID string) (*types.Devi
 	}
 
 	deviceHistoryService := new(DeviceHistoryService)
-	err = deviceHistoryService.UpdateHistory(userID, dbUserID, deviceID)
+	err = deviceHistoryService.UpdateHistory(device.UserID, dbUserID, deviceID)
 	if err != nil {
 		return nil, err
 	}
