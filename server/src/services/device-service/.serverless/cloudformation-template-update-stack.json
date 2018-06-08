@@ -66,6 +66,18 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/device-service-dev-device:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:eu-west-1:*:table/RackOrganizer"
                 }
               ]
             }
@@ -92,7 +104,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/device-service/dev/1528367489736-2018-06-07T10:31:29.736Z/device.zip"
+          "S3Key": "serverless/device-service/dev/1528383195684-2018-06-07T14:53:15.684Z/device.zip"
         },
         "FunctionName": "device-service-dev-device",
         "Handler": "lambda/http/bin/main",
@@ -111,14 +123,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "DeviceLambdaVersionlo5uz800wESMXt7fAuTiO2RVrFlBR03MlhHoyUzUWE": {
+    "DeviceLambdaVersioncky7eZwLOYOl6ZRRn43tCVQSriSpVbln7wn5VsUUnY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeviceLambdaFunction"
         },
-        "CodeSha256": "y8cIttN3KQLgJ6YrZZqkEReMr6tiVjFUE5nSBEh8mew="
+        "CodeSha256": "TrXjZhhGLauz23Ljvz/Dy6/dFzPiXHXAXljcnZp2Wm4="
       }
     },
     "ApiGatewayRestApi": {
@@ -142,6 +154,18 @@
           ]
         },
         "PathPart": "device",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceDeviceDeviceidVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceDevice"
+        },
+        "PathPart": "{deviceId}",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -190,7 +214,50 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1528367489759": {
+    "ApiGatewayMethodDeviceDeviceidVarPut": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PUT",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceDeviceDeviceidVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "DeviceLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1528383195716": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -199,7 +266,8 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodDeviceGet"
+        "ApiGatewayMethodDeviceGet",
+        "ApiGatewayMethodDeviceDeviceidVarPut"
       ]
     },
     "DeviceLambdaPermissionApiGateway": {
@@ -259,7 +327,7 @@
     "DeviceLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeviceLambdaVersionlo5uz800wESMXt7fAuTiO2RVrFlBR03MlhHoyUzUWE"
+        "Ref": "DeviceLambdaVersioncky7eZwLOYOl6ZRRn43tCVQSriSpVbln7wn5VsUUnY"
       }
     },
     "ServiceEndpoint": {
