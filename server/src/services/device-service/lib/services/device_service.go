@@ -15,27 +15,36 @@ type DeviceService struct {
 }
 
 // UpdateDevice ...
-func (service *DeviceService) UpdateDevice(deviceID, userID string) error {
+func (service *DeviceService) UpdateDevice(deviceID, userID string) (*types.DeviceState, error) {
 	dbService := new(DBService)
 	device, err := dbService.GetDeviceByID(deviceID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	var dbUserID string
+	var deviceState = new(types.DeviceState)
 	if userID == device.UserID {
 		// Return device.
 		dbUserID = rackUserID
+		deviceState.DeviceState = "Returned"
 	} else {
 		// Get device.
 		dbUserID = userID
+		deviceState.DeviceState = "Taken"
 	}
 
 	err = dbService.UpdateDevice(deviceID, dbUserID)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+
+	deviceHistoryService := new(DeviceHistoryService)
+	err = deviceHistoryService.UpdateHistory(userID, dbUserID, deviceID)
+	if err != nil {
+		return nil, err
+	}
+	return deviceState, nil
 }
 
 // GetFullDevice ...

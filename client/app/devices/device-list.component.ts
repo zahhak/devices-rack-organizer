@@ -5,47 +5,45 @@ import { ListViewEventData } from "nativescript-ui-listview";
 import { Subscription } from "rxjs";
 import { finalize } from "rxjs/operators";
 
-import { Car } from "./shared/car.model";
-import { CarService } from "./shared/car.service";
+import { DeviceInfo } from "../shared/device.model";
+import { DevicesService } from "../shared/devices-service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-    selector: "CarsList",
     moduleId: module.id,
-    templateUrl: "./car-list.component.html",
+    templateUrl: "./devices-list.component.html",
     styleUrls: ["./car-list.component.scss"]
 })
-export class CarListComponent implements OnInit, OnDestroy {
+export class DevicesListComponent implements OnInit {
     private _isLoading: boolean = false;
-    private _cars: ObservableArray<Car> = new ObservableArray<Car>([]);
+    private _devices: DeviceInfo[] = [];
     private _dataSubscription: Subscription;
 
+    public user: string;
+
     constructor(
-        private _carService: CarService,
+        private route: ActivatedRoute,
+        private _devicesService: DevicesService,
         private _routerExtensions: RouterExtensions
     ) { }
 
+
     ngOnInit(): void {
-        if (!this._dataSubscription) {
-            this._isLoading = true;
-
-            this._dataSubscription = this._carService.load()
-                .pipe(finalize(() => this._isLoading = false))
-                .subscribe((cars: Array<Car>) => {
-                    this._cars = new ObservableArray(cars);
-                    this._isLoading = false;
-                });
-        }
+        this._isLoading = true;
+        this.route.queryParams
+            .subscribe(params => {
+                this.user = params.user;
+                this._devicesService.getAllDevices(this.user)
+                    .then(res => {
+                        this._devices = res;
+                        // TODO: Update UI somewhere here :)))
+                        this._isLoading = false;
+                    });
+            });
     }
 
-    ngOnDestroy(): void {
-        if (this._dataSubscription) {
-            this._dataSubscription.unsubscribe();
-            this._dataSubscription = null;
-        }
-    }
-
-    get cars(): ObservableArray<Car> {
-        return this._cars;
+    get devices(): ObservableArray<DeviceInfo> {
+        return new ObservableArray(this._devices);
     }
 
     get isLoading(): boolean {

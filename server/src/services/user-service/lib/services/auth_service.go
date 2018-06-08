@@ -53,7 +53,7 @@ func getDummyPolicyDocument(evt events.APIGatewayCustomAuthorizerRequest) events
 }
 
 func parseAuthHeader(token string) string {
-	re := regexp.MustCompile("Bearer|Basic (.*)")
+	re := regexp.MustCompile("(?:Bearer|Basic) (.*)")
 	return re.FindStringSubmatch(token)[1]
 }
 
