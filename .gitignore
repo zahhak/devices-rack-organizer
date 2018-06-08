@@ -39,3 +39,4 @@ package-lock.json
 vendor
 .build
 **/bin
+**/.serverless
