@@ -69,7 +69,7 @@ export class MenuComponent {
 
     public onListTapped() {
         return this._routerExtensions.navigate(["/devices"], {
-            clearHistory: true,
+            clearHistory: false,
             animated: true,
             transition: {
                 name: "slideBottom",
@@ -80,13 +80,6 @@ export class MenuComponent {
                 user: this.user
             }
         });
-
-        // this._devicesService.getAllDevices(this.user)
-        //     .then(res => alert("Result is " + JSON.stringify(res, null, 2)))
-        //     .catch(err => alert("error while getting devices: " + err));
-
-        console.log("@@@@@@@@@@@@ LS");
-        alert("TAPPED!!!!!");
     }
 
 }
