@@ -52,13 +52,17 @@ export class DevicesListComponent implements OnInit {
     onDeviceItemTap(args: ListViewEventData): void {
         const tappedDeviceItem = args.view.bindingContext;
 
-        this._routerExtensions.navigate(["/devices/device-detail", tappedDeviceItem.deviceId],
+        this._routerExtensions.navigate(["/devices/device-detail"],
             {
                 animated: true,
                 transition: {
                     name: "slide",
                     duration: 200,
                     curve: "ease"
+                },
+                queryParams: {
+                    deviceId: tappedDeviceItem.deviceId,
+                    user: this.user
                 }
             });
     }

@@ -10,14 +10,13 @@ export class DevicesService {
 
     private _devices: DeviceInfo[];
     private serverUrl = "https://dp7o5mvps0.execute-api.eu-west-1.amazonaws.com/dev/device";
-    private serverUrl2 = "https://b04hmprozf.execute-api.eu-west-1.amazonaws.com/test/device";
 
     private get devicesEndpoint(): string {
         return `${this.serverUrl}`;
     }
 
     private getDeviceActionEndpoint(deviceId): string {
-        return `${this.serverUrl2}/${deviceId}`;
+        return `${this.serverUrl}/${deviceId}`;
     }
 
     constructor() { }
@@ -47,7 +46,9 @@ export class DevicesService {
             this.getAllDevices(user) : Promise.resolve(this._devices);
 
         return getDevicesPromise.then(res => {
-            const devicesFound = this._devices.filter(d => d.id === deviceId);
+            console.log("################### devices in getDeviceInfo", this._devices);
+            const devicesFound = this._devices.filter(d => d.id !== deviceId);
+            console.log("dev found", devicesFound);
             return devicesFound && devicesFound[0];
         });
     }

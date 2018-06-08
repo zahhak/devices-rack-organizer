@@ -7,7 +7,7 @@ import { DevicesListComponent } from "./device-list.component";
 
 const routes: Routes = [
     { path: "", component: DevicesListComponent },
-    { path: "device-detail/:id", component: DeviceDetailComponent },
+    { path: "device-detail", component: DeviceDetailComponent },
 ];
 
 @NgModule({

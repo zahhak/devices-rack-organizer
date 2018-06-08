@@ -17,7 +17,7 @@
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
                     <Label [text]="device.deviceId" class="text-primary font-weight-bold"></Label>
                     <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2"></StackLayout>
-                    <Image row="2" [src]="device.imageUrl" stretch="aspectFill" height="120" class="m-r-20"></Image>
+                    <Image row="2" [src]="device.imageUrl" stretch="aspectFill" decodeWidth="120" decodeHeight="120" height="120" class="m-r-20"></Image>
                     <Label class="p-b-10" rowSpan="2" col="1" row="1">
                         <!-- set fontFamily="system" to workaround "Service exited due to Segmentation fault: 11" error -->
                         <FormattedString ios:fontFamily="system">
