@@ -25,7 +25,6 @@
     "nativescript-angular": "~6.0.0",
     "nativescript-barcodescanner": "2.7.6",
     "nativescript-imagepicker": "~5.0.0",
-    "nativescript-plugin-firebase": "~6.0.0",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-ui-listview": "~3.5.0",
     "reflect-metadata": "~0.1.10",

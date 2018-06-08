@@ -32,9 +32,5 @@
 	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
-	<key>GOOGLE_APP_ID</key>
-	<string>1:33002893899:ios:1aa8448c56b58a16</string>
-	<key>DATABASE_URL</key>
-	<string>https://car-rental-b26b7.firebaseio.com</string>
 </dict>
 </plist>
