@@ -28,6 +28,9 @@ functions:
               method: GET
               path: device
           - http:
+              method: GET
+              path: device/{deviceId}
+          - http:
               method: PUT
               path: device/{deviceId}
               authorizer:

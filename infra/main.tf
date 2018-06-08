@@ -2,7 +2,7 @@ data "aws_region" "eu-west-1" {}
 
 resource "aws_s3_bucket" "ns-devices-rack-organizer" {
   bucket = "ns-devices-rack-organizer"
-  acl    = "private"
+  acl    = "public-read"
 
   tags {
     Name        = "ns-devices-rack-organizer"

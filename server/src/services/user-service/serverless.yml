@@ -25,4 +25,4 @@ resources:
           - AuthorizerLambdaFunction
           - Arn
       Export:
-        Name: AuthorizerLambda-RackOrganizer
+        Name: AuthorizerLambda-RackOrganizer-${self:provider.stage}
