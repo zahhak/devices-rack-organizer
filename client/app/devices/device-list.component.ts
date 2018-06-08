@@ -41,8 +41,8 @@ export class DevicesListComponent implements OnInit {
             });
     }
 
-    get devices(): ObservableArray<DeviceInfo> {
-        return new ObservableArray(this._devices);
+    get devices(): DeviceInfo[] {
+        return this._devices;
     }
 
     get isLoading(): boolean {
